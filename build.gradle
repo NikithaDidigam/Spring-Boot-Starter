@@ -5,6 +5,8 @@ plugins {
 	id 'jacoco'
 	id "org.sonarqube" version "3.5.0.2730"
 	id "au.com.dius.pact" version "4.4.2"
+	id 'pmd'
+	id 'checkstyle'
 }
 
 jacoco {
@@ -29,6 +31,24 @@ sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
+}
+
+apply plugin: 'checkstyle'
+checkstyle {
+	toolVersion '7.8.1'
+	configFile file("config/checkstyle/checkstyle.xml")
+}
+checkstyleMain {
+	source ='src/main/java'
+}
+checkstyleTest {
+	source ='src/test/java'
+}
+pmd {
+	toolVersion = "6.23.0"                             // The version of PMD to use.
+	ruleSetFiles = files("config/pmd/pmd.xml")         // The location of the configuration file.
+	ruleSets = []                                      // Ignore the default rules. The ones this config
+	// uses are set with the ruleSetFiles property.
 }
 
 dependencies {
